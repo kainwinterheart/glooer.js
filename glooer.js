@@ -31,7 +31,7 @@ angular.module( 'Glooer', [] )
 			value = $scope.default_value;
 		}
 
-		var w = $scope.make_watcher( path );
+		var w = $scope.make_watcher( angular.copy( path ) );
 		var dest_key = path.pop();
 		var dst = $scope.sources;
 
@@ -53,35 +53,38 @@ angular.module( 'Glooer', [] )
 		var sv = $scope.setup_value;
 		var sources = $scope.sources;
 		var values = $scope.values;
+		var c = angular.copy;
+		var mw = $scope.make_watcher;
+		var each = angular.forEach;
 
 		var new_path = gp( _new_path );
 		var present_pathes = [];
 
-		angular.forEach( _present_pathes, function( value )
+		each( _present_pathes, function( value )
 		{
 			var present_path = gp( value );
 			var present_path_str = present_path.join( '_' );
 
-			var special_path = angular.copy( new_path );
+			var special_path = c( new_path );
 
 			special_path.push( present_path_str );
 
 			sv( special_path );
 
-			var w = $scope.make_watcher( angular.copy( special_path ) );
+			var w = mw( c( special_path ) );
 
 			special_path.pop();
 
 			var dst = sources;
 
-			angular.forEach( special_path, function( part )
+			each( special_path, function( part )
 			{
 				dst = dst[ part ];
 			} );
 
 			var src = values;
 
-			angular.forEach( present_path, function( part )
+			each( present_path, function( part )
 			{
 				src = src[ part ];
 			} );
