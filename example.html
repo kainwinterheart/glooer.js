@@ -28,7 +28,7 @@ angular.module( 'GlooerExample', [ 'Glooer' ] )
 	return {
 		'commify': function( i )
 		{
-			return ( '' + i ).replace( /\./, ',' );
+			return ( '' + i.toFixed( 2 ) ).replace( /\./, ',' );
 		}
 	};
 } )
@@ -84,7 +84,11 @@ angular.module( 'GlooerExample', [ 'Glooer' ] )
 
 </table>
 
-<p>{{commify( values.one._ + values.two._ )}} should be {{commify( values._ )}}</p>
+<p ng-init="iv([ 'zee', 'test' ], ( values.one._ + values.two._ ))">zee test: {{commify( values.zee.test._ )}}</p>
+
+<p ng-init="cv([ 'some_cv' ], [ [ 'one' ], [ 'two' ] ])">cv: {{commify( values.some_cv._ )}}</p>
+
+<p>{{commify( values.one._ + values.two._ + values.some_cv._ + values.zee.test._ )}} should be {{commify( values._ )}}</p>
 
 <input type="button" value="dump" ng-click="dump()" />
 </div>
