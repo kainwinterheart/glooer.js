@@ -1,0 +1,97 @@
+<!DOCTYPE html5> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"> 
+<head> 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular.min.js"></script>
+<script type="text/javascript" src="glooer.js"></script>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<title> 
+glooer.js
+</title> 
+<style> 
+html, body {
+	line-height: 1;
+	font: 13px Helvetica, 'Liberation Sans', Arial, FreeSans, sans-serif;
+	background-color: #fafafa;
+	color: #000000;
+	width: 100%;
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+</style> 
+
+<script type="text/javascript">
+angular.module( 'GlooerExample', [ 'Glooer' ] )
+
+.factory( 'GlooerExampleCosmetics', function()
+{
+	return {
+		'commify': function( i )
+		{
+			return ( '' + i ).replace( /\./, ',' );
+		}
+	};
+} )
+
+.controller( 'GlooerExampleController', function( $scope, $controller, GlooerExampleCosmetics )
+{
+	$controller( 'GlooerController', { '$scope': $scope } );
+
+	$scope.dump = function()
+	{
+		console.log( { sources: $scope.sources, values: $scope.values } );
+	};
+
+	$scope.commify = GlooerExampleCosmetics.commify;
+} )
+
+;
+</script>
+
+</head> 
+<body>
+
+<div ng-app="GlooerExample">
+
+<div ng-controller="GlooerExampleController">
+
+<table>
+
+<tr>
+<td ng-init="iv(['one','td'],12.34)">{{commify( sources.one.td )}}</td>
+<td ng-init="iv(['two','td'],12.34)">{{commify( sources.two.td )}}</td>
+</tr>
+
+<tr>
+<td><input type="text" ng-model="sources.one.input" ng-init="iv(['one','input'])" /></td>
+<td><input type="text" ng-model="sources.two.input.first" ng-init="iv(['two','input','first'])" /></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+<td><input type="text" ng-model="sources.two.input.second" ng-init="iv(['two','input','second'])" /></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+<td>{{commify( values.two.input._ )}}</td>
+</tr>
+
+<tr>
+<td>{{commify( values.one._ )}}</td>
+<td>{{commify( values.two._ )}}</td>
+</tr>
+
+</table>
+
+<p>{{commify( values.one._ + values.two._ )}} should be {{commify( values._ )}}</p>
+
+<input type="button" value="dump" ng-click="dump()" />
+</div>
+
+</div>
+
+</body> 
+</html> 
+
+
