@@ -88,6 +88,8 @@ angular.module( 'GlooerExample', [ 'Glooer' ] )
 
 <p ng-init="cv([ 'some_cv' ], [ [ 'one' ], [ 'two' ] ])">cv: {{commify( values.some_cv._ )}}</p>
 
+<p ng-init="cv(['some','another','cv'],['some_cv','two.input.second'])">{{commify( values.some.another.cv._ )}}</p>
+
 <p>{{commify( values.one._ + values.two._ + values.some_cv._ + values.zee.test._ )}} should be {{commify( values._ )}}</p>
 
 <input type="button" value="dump" ng-click="dump()" />
