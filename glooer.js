@@ -28,7 +28,7 @@ angular.module( 'Glooer', [] )
 
 		if( arguments.length == 1 )
 		{
-			value = $scope.default_value;
+			value = $scope.get_default_value();
 		}
 
 		var w = $scope.make_watcher( angular.copy( path ) );
@@ -175,7 +175,7 @@ angular.module( 'Glooer', [] )
 	{
 		if( ! angular.isDefined( src ) ) src = $scope.values;
 
-		var out = $scope.default_value;
+		var out = $scope.get_default_value();
 
 		angular.forEach( path, function( part )
 		{
@@ -210,7 +210,12 @@ angular.module( 'Glooer', [] )
 	// parses input
 	$scope.parse_input = function( value )
 	{
-		return ( parseFloat( value ) || $scope.default_value );
+		return ( parseFloat( value ) || $scope.get_default_value() );
+	};
+
+	$scope.get_default_value = function()
+	{
+		return angular.copy( $scope.default_value );
 	};
 
 	// default value

@@ -34,11 +34,9 @@ angular.module( 'GlooerExample', [ 'Glooer' ] )
 
 	$scope.reduce = function( a, b )
 	{
-		var c = $scope.JSON.parse( a );
+		angular.forEach( b, function( e ){ a.push( e ) } )
 
-		angular.forEach( $scope.JSON.parse( b ), function( e ){ c.push( e ) } )
-
-		return $scope.JSON.stringify( c );
+		return a;
 	};
 
 	$scope.parse_input = function( i )
@@ -46,20 +44,7 @@ angular.module( 'GlooerExample', [ 'Glooer' ] )
 		return i;
 	};
 
-	$scope.JSON = window.JSON;
-	$scope.default_value = $scope.JSON.stringify( [] );
-
-	var old_iv = $scope.iv;
-
-	$scope.iv = function()
-	{
-		if( arguments.length == 2 )
-		{
-			arguments[ 1 ] = $scope.JSON.stringify( arguments[ 1 ] );
-		}
-
-		return old_iv.apply( $scope, arguments );
-	};
+	$scope.default_value = [];
 } )
 
 ;
@@ -82,7 +67,7 @@ angular.module( 'GlooerExample', [ 'Glooer' ] )
 </table>
 
 <p>agg: {{values.td._}}</p>
-<p>td.one: {{JSON.parse(values.td.one._).join(', ')}}</p>
+<p>td.one: {{values.td.one._.join(', ')}}</p>
 <p ng-init="cv(['cv', 'first'],[ [ 'td', 'one' ], [ 'td', 'two' ] ])">cv: {{values.cv.first._}}</p>
 
 <input type="button" value="dump" ng-click="dump()" />
