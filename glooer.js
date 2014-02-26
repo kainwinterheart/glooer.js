@@ -46,7 +46,7 @@ angular.module( 'Glooer', [] )
 	};
 
 	// cv == complex value
-	// initializes handlers and stuff for values which are results of reducing some old values
+	// initializes handlers and stuff for values which are results of reduction of some old values
 	$scope.cv = function( _new_path, _present_pathes )
 	{
 		var gp = $scope.get_path;
@@ -151,14 +151,15 @@ angular.module( 'Glooer', [] )
 		var sv = $scope.set_value;
 		var cv = $scope.calc_value;
 		var c = angular.copy;
+		var pi = $scope.parse_input;
 
 		// this watcher is kinda slow and probably needs to be rewritten
 		return function( new_value )
 		{
-			sv( path, new_value );
+			sv( path, pi( new_value ) );
 
 			var new_path = c( path );
-			var l = new_path.length;
+			var l = ( new_path.length - 1 ); // prevent from reducing everything with everything
 
 			for( var i = 0; i < l; ++i )
 			{
@@ -172,7 +173,7 @@ angular.module( 'Glooer', [] )
 	// calculates value for path
 	$scope.calc_value = function( path, src )
 	{
-		if( ! angular.isDefined( src ) ) src = $scope.sources;
+		if( ! angular.isDefined( src ) ) src = $scope.values;
 
 		var out = $scope.default_value;
 
@@ -181,19 +182,14 @@ angular.module( 'Glooer', [] )
 			src = src[ part ];
 		} );
 
-		if( angular.isObject( src ) )
-		{
-			var r = $scope.reduce;
+		var r = $scope.reduce;
 
-			angular.forEach( src, function( value, key )
-			{
-				out = r( out, $scope.calc_value( [ key ], src ) );
-			} );
-
-		} else
+		angular.forEach( src, function( value, key )
 		{
-			out = $scope.parse_input( src );
-		}
+			if( key == '_' ) return true;
+
+			out = r( out, value._ );
+		} );
 
 		return out;
 	};
