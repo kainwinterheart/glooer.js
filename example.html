@@ -3,6 +3,7 @@
 <head> 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular.min.js"></script>
 <script type="text/javascript" src="glooer.js"></script>
+<script type="text/javascript" src="glooer-pv.js"></script>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <title> 
 glooer.js
@@ -21,7 +22,7 @@ html, body {
 </style> 
 
 <script type="text/javascript">
-angular.module( 'GlooerExample', [ 'Glooer' ] )
+angular.module( 'GlooerExample', [ 'Glooer', 'Glooer.pv' ] )
 
 .factory( 'GlooerExampleCosmetics', function()
 {
@@ -33,9 +34,10 @@ angular.module( 'GlooerExample', [ 'Glooer' ] )
 	};
 } )
 
-.controller( 'GlooerExampleController', function( $scope, $controller, GlooerExampleCosmetics )
+.controller( 'GlooerExampleController', function( $scope, $controller, GlooerExampleCosmetics, GlooerPVImpl )
 {
 	$controller( 'GlooerController', { '$scope': $scope } );
+	GlooerPVImpl( $scope );
 
 	$scope.dump = function()
 	{
@@ -91,6 +93,8 @@ angular.module( 'GlooerExample', [ 'Glooer' ] )
 <p ng-init="cv(['some','another','cv'],['some_cv','two.input.second'])">{{commify( values.some.another.cv._ )}}</p>
 
 <p>{{commify( values.two.input.first._ + values.two.input.second._ )}} should be {{commify( values.two.input._ )}}</p>
+
+<p ng-init="pv([ 'pv', 'one' ],'one','two')">two is {{commify( values.pv.one._ )}}% of one</p>
 
 <input type="button" value="dump" ng-click="dump()" />
 </div>
